@@ -1,0 +1,12 @@
+{
+    "development": {
+        "PORT": 4000,
+        "MONGODB_URI": "mongodb://localhost:27017/AuthPractice",
+        "JWT_SECRET": "as897hfda798hsf78c2893r9278r978c"
+    },
+    "test": {
+        "PORT": 3000,
+        "MONGODB_URI": "mongodb://localhost:27017/AuthPracticeTest",
+        "JWT_SECRET": "dh01872d09182v4hnh172nh128763x1n"
+    }
+}

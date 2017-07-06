@@ -33,11 +33,24 @@ describe('GET /users/user-by-token', () => {
         }).end(done);
     });
 
-    it('should deny access if token is invalid', done => {
+    it('should deny access if token not present', done => {
         request(app)
         .get('/users/user-by-token')
         .expect(401)
+        .expect(res => {
+            expect(res.header['x-auth']).toNotExist();
+        })
         .end(done);
+    });
+
+    it('should deny access if token is invalid', done => {
+        request(app)
+        .get('/users/user-by-token')
+        .set('x-auth', '123')
+        .expect(401)
+        .expect(res => {
+            expect(res.header).toIncludeKey('x-auth')
+        }).end(done);
     });
 });
 
@@ -52,7 +65,27 @@ describe('POST /login', () => {
             expect(res.header).toIncludeKey('x-auth');
             expect(res.body).toIncludeKeys(['_id', 'created_at', 'updated_at', 'last_login', 'tokens']);
         }).end(done);
-    })
+    });
+
+    it('should return not authorized on invalid password', done => {
+        const { email } = users[0];
+        const password = '';
+        request(app)
+        .post('/login')
+        .send({ email, password })
+        .expect(401)
+        .end(done);
+    });
+
+    it('should return invalid credentials on invalid email', done => {
+        const email = 'wrongEmail@email.com';
+        const password = '12345';
+        request(app)
+        .post('/login')
+        .send({ email, password })
+        .expect(404)
+        .end(done);
+    });
 });
 
 describe('POST /users', () => {

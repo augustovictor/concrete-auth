@@ -2,7 +2,12 @@ const { ObjectID } = require('mongodb');
 const { User } = require('../models/user');
 const jwt = require('jsonwebtoken');
 
+const now = new Date().getTime();
+const THIRTHY_MIN_AGO = new Date(now - 1000 * 60 * 30).getTime();
+
 const firstUserId = new ObjectID();
+const thirdUserId = new ObjectID();
+
 
 const users = [
     { 
@@ -25,6 +30,18 @@ const users = [
         name: 'User 2',
         password: '123456',
         email: 'user2@email.com'
+    },
+    {
+        _id: thirdUserId,
+        name: 'User 3',
+        email: 'user3@email.com',
+        password: '123456',
+        tokens: [{
+            access: 'auth',
+            token: jwt.sign({_id: thirdUserId, access: 'auth'}, process.env.JWT_SECRET).toString()
+        }],
+        last_login: THIRTHY_MIN_AGO
+
     }
 ];
 
@@ -33,7 +50,8 @@ const populateUsers = done => {
     .then(() => {
         const firstUser = new User(users[0]).save();
         const secondUser = new User(users[1]).save();
-        return Promise.all([firstUser, secondUser]);
+        const thirdUser = new User(users[2]).save();
+        return Promise.all([firstUser, secondUser, thirdUser]);
     }).then(() => done()).catch(e => done(e));
 };
 

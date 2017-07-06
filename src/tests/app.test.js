@@ -4,17 +4,19 @@ const jwt = require('jsonwebtoken');
 const expect = require('expect');
 const { User } = require('../models/user');
 const { users, populateUsers } = require('./seed');
+const _ = require('lodash');
 
 beforeEach(populateUsers);
 
 describe('GET /users', () => {
-    it('should return an array of users', done => {
+    it('should return a set of users', done => {
         request(app)
         .get('/users')
         .expect(200)
         .expect(res => {
-            expect(res.body).toBeA('array');
-            expect(res.body.length).toBe(2);
+            expect(res.body).toBeA('object');
+            expect(res.body).toIncludeKey('users');
+            expect(res.body.users.length).toBe(3);
         }).end(done);
     });
 });
@@ -39,18 +41,31 @@ describe('GET /users/user-by-token', () => {
         .expect(401)
         .expect(res => {
             expect(res.header['x-auth']).toNotExist();
+            expect(res.body.message).toBe('Not authorized')
         })
         .end(done);
     });
 
-    it('should deny access if token is invalid', done => {
+    it('should deny access if token is wrong', done => {
         request(app)
         .get('/users/user-by-token')
-        .set('x-auth', '123')
+        .set('x-auth', '12345')
         .expect(401)
         .expect(res => {
-            expect(res.header).toIncludeKey('x-auth')
+            expect(res.header['x-auth']).toNotExist();
+            expect(res.body.message).toBe('Not authorized')
         }).end(done);
+    });
+
+    it('should deny access if token was generated 30 min ago or more', done => {
+        request(app)
+        .get('/users/user-by-token')
+        .set('x-auth', users[2].tokens[0].token)
+        .expect(401)
+        .expect(res => {
+            expect(res.body.message).toBe('Invalid session');
+        })
+        .end(done);
     });
 });
 
@@ -74,6 +89,9 @@ describe('POST /login', () => {
         .post('/login')
         .send({ email, password })
         .expect(401)
+        .expect(res => {
+            expect(res.body.message).toBe('Not authorized');
+        })
         .end(done);
     });
 

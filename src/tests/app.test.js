@@ -15,8 +15,7 @@ describe('GET /users', () => {
         .expect(200)
         .expect(res => {
             expect(res.body).toBeA('object');
-            expect(res.body).toIncludeKey('users');
-            expect(res.body.users.length).toBe(3);
+            expect(res.body.length).toBe(3);
         }).end(done);
     });
 });
@@ -31,6 +30,7 @@ describe('GET /users/user-by-token', () => {
         .set('x-auth', token)
         .expect(200)
         .expect(res => {
+            expect(res.body).toBeA('object');
             expect(res.body._id).toBe(_id.toHexString());
         }).end(done);
     });
@@ -40,6 +40,7 @@ describe('GET /users/user-by-token', () => {
         .get('/users/user-by-token')
         .expect(401)
         .expect(res => {
+            expect(res.body).toBeA('object');
             expect(res.header['x-auth']).toNotExist();
             expect(res.body.message).toBe('Not authorized')
         })
@@ -52,6 +53,7 @@ describe('GET /users/user-by-token', () => {
         .set('x-auth', '12345')
         .expect(401)
         .expect(res => {
+            expect(res.body).toBeA('object');
             expect(res.header['x-auth']).toNotExist();
             expect(res.body.message).toBe('Not authorized')
         }).end(done);
@@ -63,6 +65,7 @@ describe('GET /users/user-by-token', () => {
         .set('x-auth', users[2].tokens[0].token)
         .expect(401)
         .expect(res => {
+            expect(res.body).toBeA('object');
             expect(res.body.message).toBe('Invalid session');
         })
         .end(done);
@@ -77,6 +80,7 @@ describe('POST /login', () => {
         .send({ email, password })
         .expect(200)
         .expect(res => {
+            expect(res.body).toBeA('object');
             expect(res.header).toIncludeKey('x-auth');
             expect(res.body).toIncludeKeys(['_id', 'created_at', 'updated_at', 'last_login', 'tokens']);
         }).end(done);
@@ -90,6 +94,7 @@ describe('POST /login', () => {
         .send({ email, password })
         .expect(401)
         .expect(res => {
+            expect(res.body).toBeA('object');
             expect(res.body.message).toBe('Not authorized');
         })
         .end(done);
@@ -102,6 +107,10 @@ describe('POST /login', () => {
         .post('/login')
         .send({ email, password })
         .expect(404)
+        .expect(res => {
+            expect(res.body).toBeA('object');
+            expect(res.body.message).toBe('Invalid credentials');
+        })
         .end(done);
     });
 });
@@ -116,6 +125,7 @@ describe('POST /users', () => {
         .send(mockUser)
         .expect(200)
         .expect(res => {
+            expect(res.body).toBeA('object');
             expect(res.header['x-auth']).toExist();
             expect(res.body.password).toNotExist();
             expect(res.body).toIncludeKeys(['_id', 'created_at', 'updated_at', 'last_login', 'tokens']);
@@ -155,5 +165,18 @@ describe('POST /users', () => {
         .send(mockUser)
         .expect(400)
         .end(done);
+    });
+});
+
+describe.skip('* /*', () => {
+    it('should return a custom message on routes not found', done => {
+        request(app)
+        .get('/abc')
+        .expect(404)
+        .expect(res => {
+            console.log(res.body);
+            expect(res.body).toBeA('object');
+            expect(res.body.message).toBe('This route does not exist :)');
+        }).end(done);
     });
 });

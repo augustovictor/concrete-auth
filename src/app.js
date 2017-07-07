@@ -123,8 +123,8 @@ app.post('/users', (req, res) => {
  * 
  * @apiParamExample {json} Request-Example:
     {
-        "email": "v1@email.com",
-        "password": "123456"
+        "email": "findme@augustovictor.com",
+        "password": "12345"
     }
  * 
  * @apiSuccessExample Success-Response:

@@ -23,17 +23,8 @@ app.get('/users', (req, res) => {
 });
 
 // TODO: FETCH BY ID
-app.get('/users/user-by-token', auth, (req, res) => {
-    User.findByToken(req.token).then(user => {
-        const now = new Date().getTime();
-        const timeSinceLastLogin = (now - user.last_login) / 1000;
-        if(timeSinceLastLogin > 1800) { // 1800 seconds = 30 min
-            return res.status(401).json({ message: 'Invalid session' });
-            // return Promise.reject({ message: 'Invalid session' });
-        };
-        return res.json(user);
-    }).catch(e => res.status(401).send(e));
-    
+app.get('/users/:id', auth, (req, res) => {
+    res.json(req.user);
 });
 
 app.post('/users', (req, res) => {

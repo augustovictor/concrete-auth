@@ -20,13 +20,13 @@ describe('GET /users', () => {
     });
 });
 
-describe('GET /users/user-by-token', () => {
+describe('GET /users/:id', () => {
     it('should return user if token is valid', done => {
         const { _id, email } = users[0];
         const token = users[0].tokens[0].token;
 
         request(app)
-        .get('/users/user-by-token')
+        .get(`/users/${_id}`)
         .set('x-auth', token)
         .expect(200)
         .expect(res => {
@@ -37,7 +37,7 @@ describe('GET /users/user-by-token', () => {
 
     it('should deny access if token not present', done => {
         request(app)
-        .get('/users/user-by-token')
+        .get(`/users/${users[0]._id}`)
         .expect(401)
         .expect(res => {
             expect(res.body).toBeA('object');
@@ -49,7 +49,7 @@ describe('GET /users/user-by-token', () => {
 
     it('should deny access if token is wrong', done => {
         request(app)
-        .get('/users/user-by-token')
+        .get(`/users/${users[0]._id}`)
         .set('x-auth', '12345')
         .expect(401)
         .expect(res => {
@@ -61,7 +61,7 @@ describe('GET /users/user-by-token', () => {
 
     it('should deny access if token was generated 30 min ago or more', done => {
         request(app)
-        .get('/users/user-by-token')
+        .get(`/users/${users[2]._id}`)
         .set('x-auth', users[2].tokens[0].token)
         .expect(401)
         .expect(res => {

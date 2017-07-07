@@ -8,8 +8,13 @@ const auth = (req, res, next) => {
         const timeSinceLastLogin = (now - user.last_login) / 1000;
         const userId = user._id.toHexString();
 
-        if(!user) return Promise.reject();
-        if(req.params.id !== userId) return Promise.reject();
+        if(!user) {
+            return Promise.reject();
+        }
+
+        if(req.params.id !== userId) {
+            return Promise.reject();
+        }
         
         if(timeSinceLastLogin > 1800) { // 1800 seconds = 30 min
             return res.status(401).json({ message: 'Invalid session' });

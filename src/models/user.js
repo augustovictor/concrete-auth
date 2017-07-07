@@ -64,7 +64,10 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre('save', function(next) {
     const user = this;
-    user.updated_at = new Date().getTime();
+    const now = new Date().getTime();
+    
+    user.updated_at = now;
+
     if(user.isModified('password')) {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(user.password, salt, (err, hash) => {
@@ -112,6 +115,7 @@ UserSchema.methods.generateAuthToken = function() {
     const token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET).toString();
     
     user.tokens = [];
+    user.last_login = new Date().getTime();
     user.tokens.push({access, token});
     return user.save().then(() => token);
 };

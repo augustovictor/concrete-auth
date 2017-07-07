@@ -40,3 +40,7 @@
 - [x] JWT como token
 - [x] Testes unitários
 - [x] Criptogafia não reversível (hash) na senha e no token
+
+## Pontos importantes
+- O arquivo `config.json` está no repositório apenas para fins de demonstração, uma vez que este deve constar apenas no servidor em produção por motivos de segurança.
+- Durante o desenvolvimento houve problema com a reindexação do banco para assegurar unicidade do atributo `email`.

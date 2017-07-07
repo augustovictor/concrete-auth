@@ -1,16 +1,25 @@
 // BUILD SYSTEM - Collection of tasks (task runners);
 
-const gulp = require('gulp');
-const batch = require('gulp-batch');
-const mocha = require('gulp-mocha');
+const gulp    = require('gulp');
+const batch   = require('gulp-batch');
+const mocha   = require('gulp-mocha');
 const plumber = require('gulp-plumber');
 const nodemon = require('gulp-nodemon');
-const env = require('gulp-env');
-const jshint = require('gulp-jshint');
+const env     = require('gulp-env');
+const jshint  = require('gulp-jshint');
+const apidoc  = require('gulp-apidoc');
 
 // TASKS
 gulp.task('message', () => {
     console.log('Something changed!');
+});
+
+gulp.task('docs', done => {
+    apidoc({
+        src: 'src/',
+        dest: 'docs/'
+        // debug: true
+    }, done);
 });
 
 gulp.task('hint', () => {
@@ -34,7 +43,7 @@ gulp.task('runTests', () => {
 
 gulp.task('start', () => {
     nodemon({
-        script: 'app.js',
+        script: 'src/app.js',
         ext: 'js json',
         env: {
             // 'NODE_ENV': 'development'
@@ -44,7 +53,8 @@ gulp.task('start', () => {
 
 // WATCH
 gulp.task('watch', () => {
-    gulp.watch(['app.js', 'src/**/*.+(js|json)'], ['runTests']);
+    gulp.watch(['src/**/*.+(js|json)'], ['runTests']);
+    gulp.watch(['src/**/*.+(js|json)'], ['docs']);
 });
 
 gulp.task('hint-watch', ['hint'], () => {
@@ -52,4 +62,4 @@ gulp.task('hint-watch', ['hint'], () => {
 });
 
 // DEFAULT
-gulp.task('default', ['hint-watch', 'runTests', 'watch']);
+gulp.task('default', ['hint-watch', 'docs', 'runTests', 'watch']);

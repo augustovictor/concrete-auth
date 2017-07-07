@@ -3,7 +3,7 @@ const { User } = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 const now = new Date().getTime();
-const THIRTHY_MIN_AGO = new Date(now - 1000 * 60 * 30).getTime();
+const THIRTHY_MINS_AGO = new Date(now - 1000 * 60 * 30).getTime();
 
 const firstUserId = new ObjectID();
 const thirdUserId = new ObjectID();
@@ -14,7 +14,7 @@ const users = [
         _id: firstUserId,
         name: 'User 1',
         email: 'user1@email.com',
-        password: '123456',
+        password: '12345',
         tokens: [{
             access: 'auth',
             token: jwt.sign({ _id: firstUserId, access: 'auth' }, process.env.JWT_SECRET).toString()
@@ -28,19 +28,19 @@ const users = [
     {
         _id: new ObjectID(),
         name: 'User 2',
-        password: '123456',
+        password: '12345',
         email: 'user2@email.com'
     },
     {
         _id: thirdUserId,
         name: 'User 3',
         email: 'user3@email.com',
-        password: '123456',
+        password: '12345',
         tokens: [{
             access: 'auth',
             token: jwt.sign({_id: thirdUserId, access: 'auth'}, process.env.JWT_SECRET).toString()
         }],
-        last_login: THIRTHY_MIN_AGO
+        last_login: THIRTHY_MINS_AGO
 
     }
 ];

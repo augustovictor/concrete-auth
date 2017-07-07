@@ -1,5 +1,5 @@
 const request = require('supertest');
-const { app } = require('../../app');
+const { app } = require('../../src/app');
 const jwt = require('jsonwebtoken');
 const expect = require('expect');
 const { User } = require('../models/user');
@@ -126,7 +126,7 @@ describe('POST /users', () => {
 });
 
 describe('POST /login', () => {
-    it('should return user if logged successfully', done => {
+    it('should return user with a different token if logged successfully', done => {
         const { email, password } = Object.create(users[0]);
         request(app)
         .post('/login')
@@ -136,6 +136,7 @@ describe('POST /login', () => {
             expect(res.body).toBeA('object');
             expect(res.header).toIncludeKey('x-auth');
             expect(res.body).toIncludeKeys(['_id', 'created_at', 'updated_at', 'last_login', 'tokens']);
+            expect(res.body.tokens[0].token).toNotBe(users[0].tokens[0].token);
         }).end(done);
     });
 
@@ -164,6 +165,15 @@ describe('POST /login', () => {
             expect(res.body).toBeA('object');
             expect(res.body.message).toBe('Invalid credentials');
         })
+        .end(done);
+    });
+});
+
+describe('/docs', () => {
+    it('should return 200 for docs page request', done => {
+        request(app)
+        .get('/docs/index.html')
+        .expect(200)
         .end(done);
     });
 });

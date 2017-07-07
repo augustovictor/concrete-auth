@@ -1,9 +1,9 @@
-const config = require('./src/config/config');
-const express = require('express');
-const bodyParser = require('body-parser');
+const config       = require('./src/config/config');
+const express      = require('express');
+const bodyParser   = require('body-parser');
 const { mongoose } = require('./src/db/mongoose');
-const _ = require('lodash');
-const { auth } = require('./src/middleware/auth');
+const _            = require('lodash');
+const { auth }     = require('./src/middleware/auth');
 
 // MODELS
 const { User } = require('./src/models/user');
@@ -22,7 +22,6 @@ app.get('/users', (req, res) => {
     .catch(e => res.status(400).send(e));
 });
 
-// TODO: FETCH BY ID
 app.get('/users/:id', auth, (req, res) => {
     res.json(req.user);
 });

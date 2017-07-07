@@ -42,7 +42,7 @@ describe('GET /users/:id', () => {
         .expect(res => {
             expect(res.body).toBeA('object');
             expect(res.header['x-auth']).toNotExist();
-            expect(res.body.message).toBe('Not authorized')
+            expect(res.body.message).toBe('Not authorized');
         })
         .end(done);
     });
@@ -55,7 +55,7 @@ describe('GET /users/:id', () => {
         .expect(res => {
             expect(res.body).toBeA('object');
             expect(res.header['x-auth']).toNotExist();
-            expect(res.body.message).toBe('Not authorized')
+            expect(res.body.message).toBe('Not authorized');
         }).end(done);
     });
 
@@ -72,52 +72,9 @@ describe('GET /users/:id', () => {
     });
 });
 
-describe('POST /login', () => {
-    it('should return user if logged successfully', done => {
-        const { email, password } = users[0];
-        request(app)
-        .post('/login')
-        .send({ email, password })
-        .expect(200)
-        .expect(res => {
-            expect(res.body).toBeA('object');
-            expect(res.header).toIncludeKey('x-auth');
-            expect(res.body).toIncludeKeys(['_id', 'created_at', 'updated_at', 'last_login', 'tokens']);
-        }).end(done);
-    });
-
-    it('should return not authorized on invalid password', done => {
-        const { email } = users[0];
-        const password = '';
-        request(app)
-        .post('/login')
-        .send({ email, password })
-        .expect(401)
-        .expect(res => {
-            expect(res.body).toBeA('object');
-            expect(res.body.message).toBe('Not authorized');
-        })
-        .end(done);
-    });
-
-    it('should return invalid credentials on invalid email', done => {
-        const email = 'wrongEmail@email.com';
-        const password = '12345';
-        request(app)
-        .post('/login')
-        .send({ email, password })
-        .expect(404)
-        .expect(res => {
-            expect(res.body).toBeA('object');
-            expect(res.body.message).toBe('Invalid credentials');
-        })
-        .end(done);
-    });
-});
-
 describe('POST /users', () => {
     it('should insert a valid user', done => {
-        const mockUser = users[0];
+        const mockUser = Object.create(users[0]);
         mockUser.email = 'mockuser@email.com';
         
         request(app)
@@ -158,7 +115,7 @@ describe('POST /users', () => {
     });
 
     it('should not accept invalid email', done => {
-        const mockUser = users[0];
+        const mockUser = Object.create(users[0]);
         mockUser.email = '';
         request(app)
         .post('/users')
@@ -168,13 +125,55 @@ describe('POST /users', () => {
     });
 });
 
-describe.skip('* /*', () => {
+describe('POST /login', () => {
+    it('should return user if logged successfully', done => {
+        const { email, password } = Object.create(users[0]);
+        request(app)
+        .post('/login')
+        .send({ email, password })
+        .expect(200)
+        .expect(res => {
+            expect(res.body).toBeA('object');
+            expect(res.header).toIncludeKey('x-auth');
+            expect(res.body).toIncludeKeys(['_id', 'created_at', 'updated_at', 'last_login', 'tokens']);
+        }).end(done);
+    });
+
+    it('should return not authorized on invalid password', done => {
+        const { email } = users[0];
+        const password = '';
+        request(app)
+        .post('/login')
+        .send({ email, password })
+        .expect(401)
+        .expect(res => {
+            expect(res.body).toBeA('object');
+            expect(res.body.message).toBe('Not authorized');
+        })
+        .end(done);
+    });
+
+    it('should return invalid credentials on invalid email', done => {
+        const email = 'wrongEmail@email.com';
+        const password = '12345';
+        request(app)
+        .post('/login')
+        .send({ email, password })
+        .expect(404)
+        .expect(res => {
+            expect(res.body).toBeA('object');
+            expect(res.body.message).toBe('Invalid credentials');
+        })
+        .end(done);
+    });
+});
+
+describe('* /*', () => {
     it('should return a custom message on routes not found', done => {
         request(app)
         .get('/abc')
         .expect(404)
         .expect(res => {
-            console.log(res.body);
             expect(res.body).toBeA('object');
             expect(res.body.message).toBe('This route does not exist :)');
         }).end(done);

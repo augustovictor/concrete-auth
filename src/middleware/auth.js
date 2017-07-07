@@ -13,7 +13,7 @@ const auth = (req, res, next) => {
         
         if(timeSinceLastLogin > 1800) { // 1800 seconds = 30 min
             return res.status(401).json({ message: 'Invalid session' });
-        };
+        }
 
         req.user = user;
         req.token = token;

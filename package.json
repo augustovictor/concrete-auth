@@ -15,6 +15,9 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "guid": "0.0.12",
+    "gulp-batch": "^1.0.5",
+    "gulp-mocha": "^4.3.1",
     "jsonwebtoken": "^7.4.1",
     "lodash": "^4.17.4",
     "mongodb": "^2.2.29",
@@ -23,6 +26,12 @@
   },
   "devDependencies": {
     "expect": "^1.20.2",
+    "gulp": "^3.9.1",
+    "gulp-env": "^0.4.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-plumber": "^1.1.0",
+    "jshint": "^2.9.5",
     "mocha": "^3.4.2",
     "supertest": "^3.0.0"
   }

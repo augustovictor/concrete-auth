@@ -1,37 +1,42 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const _ = require('lodash');
+const mongoose  = require('mongoose');
+const bcrypt    = require('bcryptjs');
+const jwt       = require('jsonwebtoken');
+const _         = require('lodash');
 const validator = require('validator');
+const Guid      = require('guid');
 
 const UserSchema = new mongoose.Schema({
+    // _id: {
+    //     type: Guid,
+    //     default: Guid.create().toString()
+    // },
     name: {
-        type: String,
+        type    : String,
         required: true
     },
     email: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
+        type     : String,
+        required : true,
+        unique   : true,
+        trim     : true,
         minlength: 5,
-        validate: {
+        validate : {
             validator: (value) => validator.isEmail(value),
             message: '{VALUE} is not a valid email'
         }
     },
     password: {
-        type: String,
-        required: true,
+        type     : String,
+        required : true,
         minlength: 5
     },
     tokens: [{
         access: {
-            type: String,
+            type    : String,
             required: true
         },
         token: {
-            type: String,
+            type    : String,
             required: true
         }
     }],
@@ -44,7 +49,7 @@ const UserSchema = new mongoose.Schema({
         }
     }],
     last_login: {
-        type: Number,
+        type   : Number,
         default: new Date().getTime()
     },
     created_at: {
@@ -52,7 +57,7 @@ const UserSchema = new mongoose.Schema({
         default: new Date().getTime()
     },
     updated_at: {
-        type: Number,
+        type   : Number,
         default: null
     }
 });
@@ -66,7 +71,7 @@ UserSchema.pre('save', function(next) {
                 user.password = hash;
                 next();
             });
-        })
+        });
     } else {
         next();
     }
@@ -89,8 +94,8 @@ UserSchema.statics.findByToken = function(token) {
     }
 
     return User.findOne({
-        _id: decodedIdAndToken._id,
-        'tokens.token': token,
+        _id            : decodedIdAndToken._id,
+        'tokens.token' : token,
         'tokens.access': 'auth'
     });
 };
@@ -99,7 +104,7 @@ UserSchema.methods.toJSON = function() {
     const user = this;
     const userObject = user.toObject();
     return _.pick(userObject, ['_id', 'created_at', 'updated_at', 'last_login', 'tokens']);
-}
+};
 
 UserSchema.methods.generateAuthToken = function() {
     const user = this;
@@ -116,11 +121,18 @@ UserSchema.statics.findByCredentials = function(email, password) {
     
     return User.findOne({ email }).then(user => {
         return new Promise((resolve, reject) => {
-            if(!user) { return reject({ status: 404, message: 'Invalid credentials'}) }
+            if(!user) { 
+                return reject({ status: 404, message: 'Invalid credentials'});
+            }
+
             bcrypt.compare(password, user.password, (err, didMatch) => {
                 if(err) return reject(err);
-                (didMatch) ? resolve(user) : reject({ message: 'Not authorized'});
-            })
+                if(didMatch) {
+                    resolve(user);
+                } else {
+                    reject({ message: 'Not authorized'});
+                }
+            });
         });
     });
 };

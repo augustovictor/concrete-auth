@@ -2,6 +2,9 @@
 
 ![Concrete](src/public/images/concrete.png)
 
+## Aplicação em produção
+[https://boiling-tor-41196.herokuapp.com](https://boiling-tor-41196.herokuapp.com)
+
 ## Requisitos funcionais
 - [x] Todos os endpoints devem somente aceitar e somente enviar JSONs. O servidor deverá retornar JSON para os casos de endpoint não encontrado também.
 - [x] Todas as respostas de erro devem retornar o objeto: `{ "mensagem": "mensagem de erro" }`
@@ -45,7 +48,9 @@
 
 ## Pontos importantes
 - O arquivo `config.json` está no repositório apenas para fins de demonstração, uma vez que este deve constar apenas no servidor em produção por motivos de segurança.
-- Durante o desenvolvimento houve problema com a reindexação do banco para assegurar unicidade do atributo `email`.
+
+## Aprendizado
+- Durante o desenvolvimento tive problema com a reindexação do banco para assegurar unicidade do atributo `email`. Pois a aplicação já estava rodando e não identificou a adição do atributo `unique` no atributo do schema do `User`.
 
 ## Pontos adicionais
 - [x] Documentação feita com [Apidocs](http://apidocjs.com/);

@@ -1,6 +1,6 @@
-![Concrete](src/public/images/concrete.png)
-
 # Desafio node.js Concrete Solutions
+
+![Concrete](src/public/images/concrete.png)
 
 ## Requisitos funcionais
 - [x] Todos os endpoints devem somente aceitar e somente enviar JSONs. O servidor deverá retornar JSON para os casos de endpoint não encontrado também.

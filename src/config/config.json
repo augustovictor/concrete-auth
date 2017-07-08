@@ -1,4 +1,8 @@
 {
+	"production": {
+		"JWT_SECRET": "A785FB169154DD44A9538B7DF174A",
+        "TOKEN_PREFIX": "Bearer "
+	},
     "development": {
         "PORT": 4000,
         "MONGODB_URI": "mongodb://localhost:27017/ConcreteUserAuth",

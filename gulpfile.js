@@ -10,10 +10,6 @@ const jshint  = require('gulp-jshint');
 const apidoc  = require('gulp-apidoc');
 
 // TASKS
-gulp.task('message', () => {
-    console.log('Something changed!');
-});
-
 gulp.task('docs', done => {
     apidoc({
         src: 'src/',
@@ -52,14 +48,11 @@ gulp.task('start', () => {
 });
 
 // WATCH
-gulp.task('watch', () => {
-    gulp.watch(['src/**/*.+(js|json)'], ['runTests']);
-    gulp.watch(['src/**/*.+(js|json)'], ['docs']);
-});
-
-gulp.task('hint-watch', ['hint'], () => {
+gulp.task('watch', ['hint', 'docs', 'runTests'], () => {
     gulp.watch('src/**/*.+(js|json)', ['hint']);
+    gulp.watch(['src/**/*.+(js|json)'], ['docs']);
+    gulp.watch(['src/**/*.+(js|json)'], ['runTests']);
 });
 
 // DEFAULT
-gulp.task('default', ['hint-watch', 'docs', 'runTests', 'watch']);
+gulp.task('default', ['watch']);

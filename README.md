@@ -1,3 +1,5 @@
+![Concrete](src/public/images/concrete.png)
+
 # Desafio node.js Concrete Solutions
 
 ## Requisitos funcionais

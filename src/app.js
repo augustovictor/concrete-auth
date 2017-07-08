@@ -54,6 +54,9 @@ app.get('/users', (req, res) => {
  * @apiGroup User
  *
  * @apiHeader (Header) {String} x-auth User token.
+ * 
+ * @apiHeaderExample {json} Header-Example:
+    { "x-auth": "Bearer MyToken" }
  *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
@@ -71,7 +74,6 @@ app.get('/users', (req, res) => {
     ]
 }
  */
-// TODO: UTILIZAR BEARER
 app.get('/users/:id', auth, (req, res) => {
     res.json(req.user);
 });

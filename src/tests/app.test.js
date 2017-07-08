@@ -31,7 +31,7 @@ describe('GET /users/:id', () => {
         .expect(200)
         .expect(res => {
             expect(res.body).toBeA('object');
-            expect(res.body._id).toBe(_id.toHexString());
+            expect(res.body._id).toBe(_id);
         }).end(done);
     });
 

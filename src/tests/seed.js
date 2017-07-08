@@ -1,12 +1,13 @@
 const { ObjectID } = require('mongodb');
 const { User } = require('../models/user');
 const jwt = require('jsonwebtoken');
+const Guid = require('guid');
 
 const now = new Date().getTime();
 const THIRTHY_MINS_AGO = new Date(now - 1000 * 60 * 30).getTime();
 
-const firstUserId = new ObjectID();
-const thirdUserId = new ObjectID();
+const firstUserId = Guid.raw();
+const thirdUserId = Guid.raw();
 
 
 const users = [
@@ -26,7 +27,7 @@ const users = [
         ]
     },
     {
-        _id: new ObjectID(),
+        _id: Guid.raw(),
         name: 'User 2',
         password: '12345',
         email: 'user2@email.com'

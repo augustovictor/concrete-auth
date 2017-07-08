@@ -6,10 +6,10 @@ const validator = require('validator');
 const Guid      = require('guid');
 
 const UserSchema = new mongoose.Schema({
-    // _id: {
-    //     type: Guid,
-    //     default: Guid.create().toString()
-    // },
+    _id: {
+        type: String,
+        default: Guid.raw()
+    },
     name: {
         type    : String,
         required: true
@@ -60,6 +60,8 @@ const UserSchema = new mongoose.Schema({
         type   : Number,
         default: null
     }
+}, {
+    _id: false
 });
 
 UserSchema.pre('save', function(next) {
@@ -112,7 +114,7 @@ UserSchema.methods.toJSON = function() {
 UserSchema.methods.generateAuthToken = function() {
     const user = this;
     const access = 'auth';
-    const token = jwt.sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET).toString();
+    const token = jwt.sign({ _id: user._id, access }, process.env.JWT_SECRET).toString();
     
     user.tokens = [];
     user.last_login = new Date().getTime();

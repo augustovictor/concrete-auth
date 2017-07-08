@@ -6,7 +6,7 @@ const auth = (req, res, next) => {
     .then(user => {
         const now = new Date().getTime();
         const timeSinceLastLogin = (now - user.last_login) / 1000;
-        const userId = user._id.toHexString();
+        const userId = user._id;
 
         if(!user) {
             return Promise.reject();

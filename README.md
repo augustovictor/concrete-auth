@@ -46,3 +46,6 @@
 ## Pontos importantes
 - O arquivo `config.json` está no repositório apenas para fins de demonstração, uma vez que este deve constar apenas no servidor em produção por motivos de segurança.
 - Durante o desenvolvimento houve problema com a reindexação do banco para assegurar unicidade do atributo `email`.
+
+## Pontos adicionais
+- [x] Documentação feita com [Apidocs](http://apidocjs.com/);

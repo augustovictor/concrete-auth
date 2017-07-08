@@ -166,7 +166,7 @@ app.all('*', (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-    console.log(`Running at http://localhost:${process.env.PORT}`);
+    console.log(`Running at port: ${process.env.PORT}`);
 });
 
 module.exports = { app };

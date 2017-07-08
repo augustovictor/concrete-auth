@@ -1,12 +1,14 @@
 {
     "development": {
         "PORT": 4000,
-        "MONGODB_URI": "mongodb://localhost:27017/AuthPractice",
-        "JWT_SECRET": "A785FB169154DD44A9538B7DF174A"
+        "MONGODB_URI": "mongodb://localhost:27017/ConcreteUserAuth",
+        "JWT_SECRET": "A785FB169154DD44A9538B7DF174A",
+        "TOKEN_PREFIX": "Bearer "
     },
     "test": {
         "PORT": 3000,
-        "MONGODB_URI": "mongodb://localhost:27017/AuthPracticeTest",
-        "JWT_SECRET": "EDDD68D521AD3F8F386353DCDFB19"
+        "MONGODB_URI": "mongodb://localhost:27017/ConcreteUserAuthTest",
+        "JWT_SECRET": "EDDD68D521AD3F8F386353DCDFB19",
+        "TOKEN_PREFIX": "Bearer "
     }
 }

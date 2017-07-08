@@ -23,7 +23,7 @@ describe('GET /users', () => {
 describe('GET /users/:id', () => {
     it('should return user if token is valid', done => {
         const { _id, email } = users[0];
-        const token = users[0].tokens[0].token;
+        const token = `${process.env.TOKEN_PREFIX}${users[0].tokens[0].token}`;
 
         request(app)
         .get(`/users/${_id}`)
@@ -60,9 +60,10 @@ describe('GET /users/:id', () => {
     });
 
     it('should deny access if token was generated 30 min ago or more', done => {
+        const token = `${process.env.TOKEN_PREFIX}${users[2].tokens[0].token}`;
         request(app)
         .get(`/users/${users[2]._id}`)
-        .set('x-auth', users[2].tokens[0].token)
+        .set('x-auth', token)
         .expect(401)
         .expect(res => {
             expect(res.body).toBeA('object');

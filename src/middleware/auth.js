@@ -1,7 +1,13 @@
 const { User } = require('../models/user');
 
 const auth = (req, res, next) => {
-    const token = req.header('x-auth');
+    let token = req.header('x-auth');
+    if(!token || (token && token.indexOf(process.env.TOKEN_PREFIX) === -1)) {
+        return res.status(401).send({message: 'Not authorized'});
+    }
+
+    token = token.split(process.env.TOKEN_PREFIX)[1];
+
     User.findByToken(token)
     .then(user => {
         const now = new Date().getTime();

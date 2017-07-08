@@ -71,6 +71,7 @@ app.get('/users', (req, res) => {
     ]
 }
  */
+// TODO: UTILIZAR BEARER
 app.get('/users/:id', auth, (req, res) => {
     res.json(req.user);
 });

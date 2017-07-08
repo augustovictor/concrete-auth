@@ -53,7 +53,7 @@ app.get('/users', (req, res) => {
  * @apiGroup User
  *
  * @apiHeader (Header) {String} x-auth User token.
- * 
+ *
  * @apiHeaderExample {json} Header-Example:
     { "x-auth": "Bearer MyToken" }
  *
@@ -91,7 +91,7 @@ app.get('/users/:id', auth, (req, res) => {
         "email": "findme@augustovictor.com",
         "password": "12345"
     }
- * 
+ *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
  * {
@@ -115,20 +115,23 @@ app.post('/users', (req, res) => {
     .then(() => user.generateAuthToken())
     .then(token => {
         res.header('x-auth', token).json(user);
-    }).catch(e => res.status(400).send(e));
+    }).catch(e => {
+		res.status(400).send(e);
+		console.log(e);
+	});
 });
 
 /**
  * @api {post} /login Sign in
  * @apiVersion 1.0.0
  * @apiGroup User
- * 
+ *
  * @apiParamExample {json} Request-Example:
     {
         "email": "findme@augustovictor.com",
         "password": "12345"
     }
- * 
+ *
  * @apiSuccessExample Success-Response:
  * HTTP/1.1 200 OK
  * {

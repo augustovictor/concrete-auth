@@ -13,9 +13,8 @@ const app = express();
 // MIDDLEWARES
 app.use(bodyParser.json({}));
 
-app.use('/docs', express.static('docs'));
-
 // ROUTES
+app.use('/docs', express.static('docs'));
 
 /**
  * @api {get} /users Request all users

@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParser.json({}));
 
 // ROUTES
-app.use('/docs', express.static('docs'));
+app.use('/docs', express.static('./docs'));
 
 /**
  * @api {get} /users Request all users

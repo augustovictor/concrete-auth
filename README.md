@@ -3,7 +3,7 @@
 ![Concrete](src/public/images/concrete.png)
 
 ## Aplicação em produção
-[https://boiling-tor-41196.herokuapp.com](https://boiling-tor-41196.herokuapp.com)
+[https://augustovictor.herokuapp.com](https://augustovictor.herokuapp.com)
 
 ## Requisitos funcionais
 - [x] Todos os endpoints devem somente aceitar e somente enviar JSONs. O servidor deverá retornar JSON para os casos de endpoint não encontrado também.

@@ -18,9 +18,9 @@ const auth = (req, res, next) => {
             return Promise.reject();
         }
 
-        if(req.params.id !== userId) {
-            return Promise.reject();
-        }
+        // if(req.params.id !== userId) {
+        //     return Promise.reject();
+        // }
         
         if(timeSinceLastLogin > 1800) { // 1800 seconds = 30 min
             return res.status(401).json({ message: 'Invalid session' });
@@ -29,7 +29,9 @@ const auth = (req, res, next) => {
         req.user = user;
         req.token = token;
         next();
-    }).catch(e => res.status(401).send({message: 'Not authorized'}));
+    }).catch(e => {
+        res.status(401).send({message: 'Not authorized'})
+    });
 };
 
 module.exports = { auth };

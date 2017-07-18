@@ -41,7 +41,7 @@ app.use('/', express.static('./docs'));
     }
 ]
 */
-app.get('/users', (req, res) => {
+app.get('/users', auth, (req, res) => {
     User.find()
     .then(users => {
         res.json(users);

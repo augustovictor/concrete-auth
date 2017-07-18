@@ -4,6 +4,7 @@ const bodyParser   = require('body-parser');
 const { mongoose } = require('./db/mongoose');
 const _            = require('lodash');
 const { auth }     = require('./middleware/auth');
+const cors         = require('cors');
 
 // MODELS
 const { User } = require('./models/user');
@@ -11,6 +12,7 @@ const { User } = require('./models/user');
 const app = express();
 
 // MIDDLEWARES
+app.use(cors());
 app.use(bodyParser.json({}));
 
 // ROUTES

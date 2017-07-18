@@ -1,14 +1,16 @@
-const mongoose  = require('mongoose');
-const bcrypt    = require('bcryptjs');
-const jwt       = require('jsonwebtoken');
-const _         = require('lodash');
-const validator = require('validator');
-const Guid      = require('guid');
+const mongoose        = require('mongoose');
+const bcrypt          = require('bcryptjs');
+const jwt             = require('jsonwebtoken');
+const _               = require('lodash');
+const validator       = require('validator');
+const Guid            = require('guid');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const UserSchema = new mongoose.Schema({
     _id: {
         type: String,
-        default: Guid.raw()
+        default: () => Guid.raw(),
+        unique: true
     },
     name: {
         type    : String,
@@ -18,6 +20,7 @@ const UserSchema = new mongoose.Schema({
         type     : String,
         required : true,
         unique   : true,
+        uniqueCaseInsensitive: true,
         trim     : true,
         minlength: 5,
         validate : {
@@ -60,8 +63,6 @@ const UserSchema = new mongoose.Schema({
         type   : Number,
         default: null
     }
-}, {
-    _id: false
 });
 
 UserSchema.pre('save', function(next) {
@@ -81,6 +82,8 @@ UserSchema.pre('save', function(next) {
         next();
     }
 });
+
+UserSchema.plugin(uniqueValidator);
 
 UserSchema.pre('update', function(next) {
     const user = this;

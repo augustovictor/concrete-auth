@@ -1,6 +1,6 @@
-# Desafio node.js Concrete Solutions
+# Desafio node.js
 
-![Concrete](src/public/images/concrete.png)
+[//]: #![Concrete](src/public/images/concrete.png)
 
 ## Aplicação em produção
 [https://augustovictor.herokuapp.com](https://augustovictor.herokuapp.com)

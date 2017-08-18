@@ -1,5 +1,5 @@
 {
-	"production": {
+    "production": {
 		"JWT_SECRET": "A785FB169154DD44A9538B7DF174A",
         "TOKEN_PREFIX": "Bearer "
 	},
